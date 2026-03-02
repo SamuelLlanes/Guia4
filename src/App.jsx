@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { BudgetForm } from "./components/BudgetForm"
 import { BudgetTracker } from "./components/BudgetTracker"
 import { BudgetStateContext } from "./context/BudgetContext"
@@ -8,6 +8,14 @@ import { FilterByCategory } from "./components/FilterByCategory"
 
 function App() {
     const state = useContext(BudgetStateContext)
+
+    useEffect(() => {
+        if (state) localStorage.setItem('budget', state.budget.toString())
+    }, [state && state.budget])
+
+    useEffect(() => {
+        if (state) localStorage.setItem('expenses', JSON.stringify(state.expenses))
+    }, [state && state.expenses])
     const isValidBudget = state.budget > 0;
 return (
     <>
